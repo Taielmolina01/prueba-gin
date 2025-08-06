@@ -36,7 +36,11 @@ func (pr *PostsRepository) CreatePost(post models.Post) (*models.PostResponse, e
 			posts (title, content) 
 		VALUES
 			(?, ?)
-		RETURNING id, title, content, publish_date
+		RETURNING 
+			id, 
+			title, 
+			content, 
+			publish_date
 	`
 
 	var response models.PostResponse
@@ -50,10 +54,18 @@ func (pr *PostsRepository) CreatePost(post models.Post) (*models.PostResponse, e
 
 func (pr *PostsRepository) UpdatePost(id uuid.UUID, post models.Post) (*models.PostResponse, error) {
 	query := `
-		UPDATE posts
-		SET title = ?, content = ?
-		WHERE id = ?
-		RETURNING id, title, content, publish_date
+		UPDATE 
+			posts
+		SET 
+			title = ?, 
+			content = ?
+		WHERE 
+			id = ?
+		RETURNING 
+			id, 
+			title, 
+			content, 
+			publish_date
 	`
 
 	var updatedPost models.PostResponse
@@ -70,8 +82,13 @@ func (pr *PostsRepository) UpdatePost(id uuid.UUID, post models.Post) (*models.P
 
 func (pr *PostsRepository) GetPosts() ([]models.PostResponse, error) {
 	query := `
-		SELECT id, title, content, publish_date
-		FROM posts
+		SELECT 
+			id, 
+			title, 
+			content, 
+			publish_date
+		FROM 
+			posts
 	`
 
 	var posts []models.PostResponse
@@ -85,9 +102,15 @@ func (pr *PostsRepository) GetPosts() ([]models.PostResponse, error) {
 
 func (pr *PostsRepository) GetPost(id uuid.UUID) (*models.PostResponse, error) {
 	query := `
-		SELECT id, title, content, publish_date
-		FROM posts
-		WHERE id = ?
+		SELECT 
+			id, 
+			title, 
+			content, 
+			publish_date
+		FROM 
+			posts
+		WHERE 
+			id = ?
 	`
 
 	var post models.PostResponse
@@ -104,8 +127,10 @@ func (pr *PostsRepository) GetPost(id uuid.UUID) (*models.PostResponse, error) {
 
 func (pr *PostsRepository) DeletePost(id uuid.UUID) error {
 	query := `
-		DELETE FROM posts
-		WHERE id = ?
+		DELETE FROM
+			posts
+		WHERE 
+			id = ?
 	`
 
 	res, err := pr.db.Exec(query, id)
